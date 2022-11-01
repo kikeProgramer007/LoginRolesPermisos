@@ -1,4 +1,4 @@
-
+> composer create-project laravel/laravel:^8.* myapp
 > composer require jeroennoten/laravel-adminlte
 > composer require laravel/ui:*
 > php artisan ui vue --auth
@@ -8,7 +8,7 @@
 > php artisan adminlte:status (ver-estado)
 > php artisan adminlte:plugins list
 > php artisan adminlte:plugins install
->php artisan adminlte:install --only=config --only=main_views
+> php artisan adminlte:install --only=config --only=main_views
 
 Fuente:https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Installation
 
@@ -99,6 +99,8 @@ use App\Models\User;//necesario
 -------------------------------------------------------------------
 abrir y pegar en "app\Models\User.php":
 -------------------------------------------------------------------
+...
+use Spatie\Permission\Traits\HasRoles;//necesario
 ...
 use HasRoles;
 ...
@@ -319,7 +321,23 @@ abrir el sgte archivo "config\adminlte.php" y pegar en "menu":
      ],
      ...
   ]
-
+----------------------------------------------------------------------------------------------------
+abrir el sgte archivo y editar "database\migrations\2014_10_12_000000_create_users_table.php"
+----------------------------------------------------------------------------------------------------
+Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('apellidos')->nullable();
+            $table->tinyInteger('edad')->nullable();
+            $table->string('direccion')->nullable();
+            $table->integer('telefono')->nullable();
+            $table->tinyInteger('estado')->default(1);
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
 
 -----------------------------------------------------------------------------------------------------
 
@@ -328,6 +346,48 @@ ruta pendiente dark narvar
 "resources\views\vendor\adminlte\components\layout\navbar-darkmode-widget.blade.php"(linea 36)
 "config\adminlte.php"(linea)
 -----------------------------------------------------------------------------------------------------
+ruta modif "database\migrations\2022_10_31_004523_create_permission_tables.php"
+-----------------------------------------------------------------------------------------------------
+        Schema::create($tableNames['permissions'], function (Blueprint $table) {
+            $table->bigIncrements('id'); // permission id
+            $table->string('name');       // For MySQL 8.0 use string('name', 125);
+            $table->string('subname'); //add attribute
+            $table->string('descripcion')->nullable();//add attribute
+            $table->Integer('tipo');//add attribute
+            $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
+            $table->timestamps();
+
+            $table->unique(['name', 'guard_name']);
+        });
+-----------------------------------------------------------------------------------------------------
+vendor\spatie\laravel-permission\database\migrations\create_permission_tables.php.stub
+-----------------------------------------------------------------------------------------------------
+        Schema::create($tableNames['permissions'], function (Blueprint $table) {
+            $table->bigIncrements('id'); // permission id
+            $table->string('name');       // For MySQL 8.0 use string('name', 125);
+            $table->string('subname'); //add attribute
+            $table->string('descripcion')->nullable();//add attribute
+            $table->Integer('tipo');//add attribute
+            $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
+            $table->timestamps();
+
+            $table->unique(['name', 'guard_name']);
+        });
+
+
+*REQUISTOS:*
+- Tener cuanta github
+- Estar logeado en gitHub
+- Tener instalado git
+
+*SUBIR A GIT HUB:*
+> git init
+> git add .
+> git status
+> git commit -m "first commit"
+> git branch -M main
+> git remote add origin https://github.com/kikeProgramer007/LoginRolesPermisos.git
+> git push -u origin main
 
 
 

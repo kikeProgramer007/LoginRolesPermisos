@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Permission;
 use App\Models\role_has_permissions;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;//necesario
 
 class RoleController extends Controller
 {
@@ -18,7 +19,12 @@ class RoleController extends Controller
 
     public function index()
     {
-        return view('roles.index');
+        if (Auth::user()->hasPermissionTo('usuario.editar')) {
+            return view('roles.index');
+        }else {
+             echo 'sin permiso';
+        }
+       
     }
 
     public function DatosServerSideActivo(Request $request){

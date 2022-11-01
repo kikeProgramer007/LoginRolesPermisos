@@ -336,6 +336,7 @@ return [
             'text' => 'Roles',
             'route'  => 'rol.index',
             'icon' => 'fas fa-fw fa-user',
+            'can' => 'usuario.editar',
         ],
         [
             'text' => 'change_password',

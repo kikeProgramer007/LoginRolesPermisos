@@ -24,13 +24,16 @@ class DatabaseSeeder extends Seeder
         $role2 = Role::create(['name' => 'repartidor','descripcion' => 'entregar productos']);
         $role3 = Role::create(['name' => 'administrador','descripcion' => 'administrar sistema']);
 
-        //Crea un permisos(opcion1)
-        $permisos = Permission::create(['name'=> 'p.crear']);
-        //syncRoles : Asinga el permiso a un rol(opcion1)
-        $permisos->syncRoles([$role1,$role2]);
+        // //Crea un permisos(opcion1)
+        // $permisos = Permission::create(['name'=> 'p.crear']);
+        // //syncRoles : Asinga el permiso a un rol(opcion1)
+        // $permisos->syncRoles([$role1,$role2]);
 
-        //Crea un permisos y Asinga el permiso a un rol(opcion2)
-        Permission::create(['name'=> 'p.eliminar'])->syncRoles([$role1,$role2]);
+        // //Crea un permisos y Asinga el permiso a un rol(opcion2)
+        // Permission::create(['name'=> 'p.eliminar'])->syncRoles([$role1,$role2]);
+        Permission::create(['name'=> 'usuario', 'subname'=> 'usuario principal','tipo'=>2])->syncRoles([$role1,$role3]);
+        Permission::create(['name'=> 'usuario.editar', 'subname'=> 'editar','tipo'=>2])->syncRoles([$role1]);
+        Permission::create(['name'=> 'usuario.eliminar', 'subname'=> 'eliminar','tipo'=>2])->syncRoles([$role1]);
 
         //Crear un Usuario
         $user1=User::create([
